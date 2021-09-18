@@ -1,0 +1,111 @@
+<?php
+
+const I = 'I';
+const V = 'V';
+const X = 'X';
+const L = 'L';
+
+function transformNbr(int $nbr){
+    
+    
+    $romanNbr= "";
+    
+    if($nbr === 0){
+        return "zero";
+    }
+    
+    if($nbr > 0 && $nbr <= 4){
+       oneToForMaker($romanNbr, $nbr);
+    }
+    
+    if($nbr > 4 && $nbr <= 9){
+        fiveToNineMaker($romanNbr, $nbr);
+    }
+    
+    if($nbr > 9 && $nbr <= 49){
+        halfHundred($romanNbr, $nbr);
+    }
+    
+    if($nbr > 49 && $nbr <= 99){
+        secondHalfHundred($romanNbr, $nbr);
+    }
+    
+    
+    
+    return $romanNbr;
+}
+
+function oneToForMaker(&$romanNbr, $nbr){
+ 
+    if($nbr == 4){
+       
+        $romanNbr .= I . V;
+    } 
+    else {
+         
+        iMaker($romanNbr, 1, $nbr);
+    }
+}
+
+function fiveToNineMaker(&$romanNbr, $nbr){
+    if($nbr == 9){
+        $romanNbr .= I . X;
+    } else {
+        $romanNbr .= V;
+        iMaker($romanNbr, 6, $nbr);
+    }
+}
+
+function halfHundred(&$romanNbr, $nbr){
+    $romanNbr .= X;
+        
+    
+        if($nbr >= 20){
+        
+            $dizaine = substr($nbr, 0,1);
+            $it = $nbr <= 49 ? 2 : 7;
+            
+            for($it; $it <= $dizaine; $it++){
+                $romanNbr .= X;
+            }
+        }
+        
+        $num = substr($nbr, 1,1);
+        
+        
+        if($num > 0 && $num <= 4){
+            oneToForMaker($romanNbr, $num);
+        }
+    
+        if($num > 4 && $num <= 9){
+            fiveToNineMaker($romanNbr, $num);
+        }
+        
+}
+
+function secondHalfHundred(&$romanNbr, $nbr){
+    $romanNbr .= L;
+        
+        $num = substr($nbr, 1,1);
+        
+        if($nbr > 50 && $nbr <= 54){
+            oneToForMaker($romanNbr, $num);
+        }
+        
+        if($nbr > 54 && $nbr <= 59){
+             fiveToNineMaker($romanNbr, $num);
+        }
+        
+        if($nbr >= 60){
+           halfHundred($romanNbr, $nbr);
+        }
+        
+}
+
+function iMaker(&$romanNbr, $it, $nbr){
+    for($it; $it <= $nbr; $it++){
+            $romanNbr .= I;
+    }
+}
+
+echo transformNbr(99);
